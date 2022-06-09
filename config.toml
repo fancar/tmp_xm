@@ -11,8 +11,12 @@ url_tmpl="https://ipapi.co/{{ .IPaddress }}/country_name/"
 
 [external_api]
 jwt_secret="verysecret"
-# bind="0.0.0.0:8282"
-bind="0.0.0.0:80"
+bind="0.0.0.0:8085"
+# bind="0.0.0.0:80"
 
 [postgre]
-dsn="postgres://app@db/app?sslmode=disable"
+# out of d-c
+# dsn="postgres://app@db/app?sslmode=disable"
+
+# plain run
+dsn="postgres://app@localhost:5442/app?sslmode=disable"

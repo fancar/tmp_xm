@@ -30,5 +30,7 @@ func TestIPaddrCheker(t *testing.T) {
 		Addr: deniedIP,
 	}
 
+	// as I constantly recieved error '429 Too Many Requests'
+	// from the ip-service, I managed to live it as is. Sorry )-:
 	assert.NoError(IPaddrCheker(peer.NewContext(context.Background(), &denied)))
 }

@@ -11,7 +11,7 @@ services:
     environment:
       - TEST_POSTGRES_DSN=postgres://app_test:app_test@db/app_test?sslmode=disable
     ports:
-      - 8085:80
+      - 8085:8085
     logging:
         driver: "json-file"
         options:
@@ -19,8 +19,8 @@ services:
             max-size: "10m"
 
   db:
-    # ports:
-    #   - 5432:5432
+    ports:
+      - 5442:5432
     image: postgres:13.2-alpine
 
     volumes:

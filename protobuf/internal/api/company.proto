@@ -73,7 +73,7 @@ message LoginResponse {
 
 
 message Company {
-	// Company ID.
+	// !Remove it if you Create! Company ID.
 	int64 id = 1;
 
 	// Company name.
