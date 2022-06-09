@@ -16,24 +16,26 @@ type Config struct {
 		LogLevel int `mapstructure:"log_level"`
 	}
 
-	Redis struct {
-		Servers    []string `mapstructure:"servers"`
-		Cluster    bool     `mapstructure:"cluster"`
-		MasterName string   `mapstructure:"master_name"`
-		PoolSize   int      `mapstructure:"pool_size"`
-		Password   string   `mapstructure:"password"`
-		Database   int      `mapstructure:"database"`
-	} `mapstructure:"redis"`
+	CountryCheck struct {
+		Enabled        bool   `mapstructure:"enabled"`
+		UrlTmpl        string `mapstructure:"url_tmpl"`
+		CountryAllowed string `mapstructure:"country_allowed"`
+	} `mapstructure:"country_check"`
+
+	ExternalAPI struct {
+		Bind            string
+		TLSCert         string `mapstructure:"tls_cert"`
+		TLSKey          string `mapstructure:"tls_key"`
+		JWTSecret       string `mapstructure:"jwt_secret"`
+		CORSAllowOrigin string `mapstructure:"cors_allow_origin"`
+	} `mapstructure:"external_api"`
 
 	PostgreSQL struct {
+		Automigrate        bool
 		DSN                string `mapstructure:"dsn"`
 		MaxOpenConnections int    `mapstructure:"max_open_connections"`
 		MaxIdleConnections int    `mapstructure:"max_idle_connections"`
 	} `mapstructure:"postgre"`
-
-	// Prometheus struct {
-	// 	Bind string `mapstructure:"bind"`
-	// } `mapstructure:"prometheus"`
 }
 
 // C holds the global configuration.

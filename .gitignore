@@ -1,5 +1,45 @@
+# hidden files except .docker-compose
+.*
+!.docker-compose/
+
+
+#joe backups
+*~
+
+# logs
+*.log
+
+
 # config files
 /*.toml
 
-$joe backup
-*~
+# coverage file
+/coverage.out
+
+# builds
+
+/dist
+/build
+/static/logo
+/static/integrations
+/static/static
+/static/swagger/*.json
+/static/index.html
+/static/asset-manifest.json
+/static/service-worker.js
+/static/manifest.json
+/static/icon.png
+/static/precache-manifest.*.js
+/ui/build
+/docs/public
+static/*
+yarn.lock
+
+# dependencies
+/vendor
+
+# certificates
+/certs
+
+# node modules
+node_modules

@@ -1,4 +1,0 @@
-# viper\cobra template
-# TODO: 
-
-

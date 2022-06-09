@@ -3,16 +3,15 @@ package cmd
 import (
 	"bytes"
 	"io/ioutil"
-	// "time"
 
-	"github.com/fancar/cobra_template/internal/config"
+	"github.com/fancar/tmp_xm/internal/config"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 var (
-	appName = "change_my_name" // TODO
+	appName = "xm_exercise_v21"
 	cfgFile string
 	version string
 )
@@ -27,10 +26,11 @@ func Execute(v string) {
 
 var rootCmd = &cobra.Command{
 	Use:   appName,
-	Short: "TODO: fill it",
-	Long:  `TODO: fill it`,
-	// > TODO: documentation & support:
-	// > source & copyright information: `,
+	Short: "Golang Exercise - v21.0.0",
+	Long: `
+	Golang Exercise - v21.0.0
+	By Mamaev Alexander fancatser@gmail.com
+	via EPAM | 08.06.2022`,
 	RunE: run,
 }
 
@@ -45,10 +45,14 @@ func init() {
 
 	viper.BindPFlag("general.log_level", rootCmd.PersistentFlags().Lookup("log-level"))
 
-	viper.SetDefault("redis.servers", []string{"localhost:6379"})
-	viper.SetDefault("postgre.dsn", "postgres://localhost/app?sslmode=disable")
+	viper.SetDefault("postgre.dsn", "postgres://app@localhost/app?sslmode=disable")
 	viper.SetDefault("postgre.max_idle_connections", 2)
 	viper.SetDefault("postgre.max_open_connections", 10)
+	viper.SetDefault("postgre.automigrate", true)
+
+	viper.SetDefault("country_check.enabled", true)
+	viper.SetDefault("country_check.url_tmpl", "https://ipapi.co/{{ .IPaddress }}/country_name/")
+	viper.SetDefault("country_check.country_allowed", "Cyprus")
 
 	rootCmd.AddCommand(versionCmd)
 	rootCmd.AddCommand(configCmd)
@@ -70,8 +74,7 @@ func initConfig() {
 	} else {
 		viper.SetConfigName("config")
 		viper.AddConfigPath(".")
-		// viper.AddConfigPath("$HOME/.config/app")
-		// viper.AddConfigPath("/etc/app")
+		viper.AddConfigPath("/etc/xm")
 		if err := viper.ReadInConfig(); err != nil {
 			switch err.(type) {
 			case viper.ConfigFileNotFoundError:

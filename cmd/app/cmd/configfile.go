@@ -7,7 +7,7 @@ import (
   "github.com/pkg/errors"
   "github.com/spf13/cobra"
 
-  "github.com/fancar/cobra_template/internal/config"
+  "github.com/fancar/tmp_xm/internal/config"
 )
 
 const configTemplate = `[general]
@@ -18,49 +18,44 @@ const configTemplate = `[general]
 # debug=5, info=4, warning=3, error=2, fatal=1, panic=0
 log_level={{ .General.LogLevel }}
 
-# Redis settings
-#
-# Please note that Redis 2.6.0+ is required.
-[redis]
+# client's ip country check
+# if enabled - only users from the country are allowed
+# for Create\Delete operations
+[country_check]
+# true - to enable the feature
+enabled="{{ .CountryCheck.Enabled }}"
 
-# Server address or addresses.
-#
-# Set multiple addresses when connecting to a cluster.
-servers=[{{ range $index, $elm := .Redis.Servers }}
-  "{{ $elm }}",{{ end }}
-]
+# url template of ip-API service
+url_tmpl="{{ .CountryCheck.UrlTmpl }}"
 
-# Password.
-#
-# Set the password when connecting to Redis requires password authentication.
-password="{{ .Redis.Password }}"
+# short country name (eg "United States")
+country_allowed="{{ .CountryCheck.CountryAllowed }}"
 
-# Database index.
-#
-# By default, this can be a number between 0-15.
-database={{ .Redis.Database }}
+[external_api]
+  # ip:port to bind the (user facing) http server to (web-interface and REST / gRPC api)
+  bind="{{ .ExternalAPI.Bind }}"
 
-# Redis Cluster.
-#
-# Set this to true when the provided URLs are pointing to a Redis Cluster
-# instance.
-cluster={{ .Redis.Cluster }}
+  # http server TLS certificate (optional)
+  tls_cert="{{ .ExternalAPI.TLSCert }}"
 
-# Master name.
-#
-# Set the master name when the provided URLs are pointing to a Redis Sentinel
-# instance.
-master_name="{{ .Redis.MasterName }}"
+  # http server TLS key (optional)
+  tls_key="{{ .ExternalAPI.TLSKey }}"
 
-# Connection pool size.
-#
-# Default (when set to 0) is 10 connections per every CPU.
-pool_size={{ .Redis.PoolSize }}
+  # JWT secret used for api authentication / authorization
+  # You could generate this by executing 'openssl rand -base64 32' for example
+  jwt_secret="{{ .ExternalAPI.JWTSecret }}"
 
-  # PostgreSQL settings.
+  # Allow origin header (CORS).
   #
-  # Please note that PostgreSQL 9.5+ is required.
-  [postgres-ns]
+  # Set this to allows cross-domain communication from the browser (CORS).
+  # Example value: https://example.com.
+  # When left blank (default), CORS will not be used.
+  cors_allow_origin="{{ .ExternalAPI.CORSAllowOrigin }}"
+
+
+# PostgreSQL settings.
+#
+[postgre]
   # PostgreSQL dsn (e.g.: postgres://user:password@hostname/database?sslmode=disable).
   #
   # Besides using an URL (e.g. 'postgres://user:password@hostname/database?sslmode=disable')

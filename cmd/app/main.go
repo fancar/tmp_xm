@@ -1,6 +1,6 @@
 package main
 
-import "github.com/fancar/cobra_template/cmd/app/cmd"
+import "github.com/fancar/tmp_xm/cmd/app/cmd"
 
 /*
 	Auhtor:		Mamaev Alexander
