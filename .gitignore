@@ -11,7 +11,7 @@
 
 
 # config files
-/*.toml
+# /*.toml
 
 # coverage file
 /coverage.out
