@@ -13,6 +13,7 @@ import (
 
 	"github.com/fancar/tmp_xm/internal/api"
 	"github.com/fancar/tmp_xm/internal/config"
+	"github.com/fancar/tmp_xm/internal/kafka"
 	"github.com/fancar/tmp_xm/internal/storage"
 )
 
@@ -22,6 +23,7 @@ func run(cnd *cobra.Command, args []string) error {
 		printStartMessage,
 		setupStorage,
 		setupAPI,
+		setupKafka,
 	}
 
 	var wg sync.WaitGroup
@@ -34,7 +36,7 @@ func run(cnd *cobra.Command, args []string) error {
 	}
 
 	exitChan := make(chan struct{})
-	sigChan := make(chan os.Signal)
+	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
 	<-sigChan
 	go func() {
@@ -78,6 +80,13 @@ func setupStorage(ctx context.Context, wg *sync.WaitGroup) error {
 func setupAPI(ctx context.Context, wg *sync.WaitGroup) error {
 	if err := api.Setup(ctx, config.C); err != nil {
 		return fmt.Errorf("can't setup api: %v", err)
+	}
+	return nil
+}
+
+func setupKafka(ctx context.Context, wg *sync.WaitGroup) error {
+	if err := kafka.Setup(ctx, wg, config.C); err != nil {
+		return fmt.Errorf("can't setup kafka: %v", err)
 	}
 	return nil
 }

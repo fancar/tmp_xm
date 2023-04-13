@@ -30,21 +30,17 @@ insert into "user" (
 
 
 create table company (
-	id bigserial primary key,
+	id uuid primary key,
 	created_at timestamp with time zone not null,
 	updated_at timestamp with time zone not null,
-	name character varying (100) not null,
-	code character varying (100) not null,
-	country character varying (100) not null,
-	website character varying (100) not null,
-	phone character varying (100) not null
+	name character varying (15) UNIQUE not null,
+	description character varying (3000) not null,
+	employees_cnt bigserial not null,
+	registered boolean not null,
+	type bigserial not null
 );
 
 create index idx_company_name on company(name);
-create index idx_company_code on company(code);
-create index idx_company_country on company(country);	
-create index idx_company_website on company(website);	
-create index idx_company_phone on company(phone);	
 
 -- for LIKE searches we can use gin indexes
 -- create index idx_company_name_trgm on company using gin (name gin_trgm_ops);	

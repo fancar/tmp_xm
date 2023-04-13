@@ -19,17 +19,15 @@ func GetConfig() config.Config {
 
 	var c config.Config
 
-	c.PostgreSQL.DSN = "postgres://app_test@localhost/app_test?sslmode=disable"
-	//  c.PostgreSQL.DSN = "postgres://ernet_ns_test:ernet_ns_test@localhost/ernet_ns_test?sslmode=disable&binary_parameters=yes"
+	c.PostgreSQL.DSN = "postgres://app_test@localhost:5442/app_test?sslmode=disable"
 	c.PostgreSQL.Automigrate = false
 
 	if v := os.Getenv("TEST_POSTGRES_DSN"); v != "" {
 		c.PostgreSQL.DSN = v
 	}
 
-	c.CountryCheck.Enabled = true
-	c.CountryCheck.UrlTmpl = "https://ipapi.co/{{ .IPaddress }}/country_name/"
-	c.CountryCheck.CountryAllowed = "Cyprus"
-
+	c.Kafka.Brokers = []string{"172.30.0.1:9092"}
+	c.Kafka.Topic = "epam-xm-test"
+	c.Kafka.EventKeyTemplate = "company.{{ .Company }}.event.{{ .EventType }}"
 	return c
 }

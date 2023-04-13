@@ -31,4 +31,11 @@ static/swagger/api.swagger.json:
 	@echo "Fetching Swagger definitions and generate combined Swagger JSON"
 
 	@cp static/swagger/internal/api/*.json static/swagger
-	@GOOS="" GOARCH="" go run internal/tools/swagger/main.go static/swagger/internal/api > static/swagger/api.swagger.json		
+	@GOOS="" GOARCH="" go run internal/tools/swagger/main.go static/swagger/internal/api > static/swagger/api.swagger.json
+
+test:
+	@echo "Running tests"
+	@rm -f coverage.out
+	@golint ./...
+	@go vet ./...
+	@go test -p 1 -v -cover ./... -coverprofile coverage.out	

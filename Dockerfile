@@ -1,4 +1,4 @@
-FROM golang:1.18-alpine AS development
+FROM golang:1.20-alpine AS development
 
 ENV PROJECT_PATH=/xm
 ENV PATH=$PATH:$PROJECT_PATH/build
@@ -15,7 +15,7 @@ WORKDIR $PROJECT_PATH
 
 RUN make
 
-FROM alpine:3.16.0 AS production
+FROM alpine:3.17.3 AS production
 
 RUN apk --no-cache add ca-certificates
 COPY --from=development /xm/build/xm /usr/bin/xm

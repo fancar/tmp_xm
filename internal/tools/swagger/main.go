@@ -38,9 +38,10 @@ func main() {
 		Paths:       make(map[string]interface{}),
 		Definitions: make(map[string]interface{}),
 	}
-	swagger.Info.Title = "XM Golang Exercise - v21.0.0 RESTful API"
+	swagger.Info.Title = "RESTful API for XM Golang Exercise v22"
 	swagger.Info.Version = apiVersion
 	swagger.Info.Description = `
+	by Mamaev Alexander
 	Please don't forget to put your jwt-token up there ;-)'
 `
 

@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	appName = "xm_exercise_v21"
+	appName = "epam_xm_exercise_v22"
 	cfgFile string
 	version string
 )
@@ -26,11 +26,13 @@ func Execute(v string) {
 
 var rootCmd = &cobra.Command{
 	Use:   appName,
-	Short: "Golang Exercise - v21.0.0",
+	Short: "EPAM Golang Exercise v22",
 	Long: `
-	Golang Exercise - v21.0.0
-	By Mamaev Alexander fancatser@gmail.com
-	via EPAM | 08.06.2022`,
+	
+	Mamaev Alexander fancatser@gmail.com
+		
+				- 2023 - 
+	`,
 	RunE: run,
 }
 
@@ -50,9 +52,11 @@ func init() {
 	viper.SetDefault("postgre.max_open_connections", 10)
 	viper.SetDefault("postgre.automigrate", true)
 
-	viper.SetDefault("country_check.enabled", true)
-	viper.SetDefault("country_check.url_tmpl", "https://ipapi.co/{{ .IPaddress }}/country_name/")
-	viper.SetDefault("country_check.country_allowed", "Cyprus")
+	viper.SetDefault("kafka.brokers", []string{"localhost:9092"})
+	viper.SetDefault("kafka.topic", "epam-xm")
+	viper.SetDefault("kafka.event_key_template", "company.{{ .Company }}.event.{{ .EventType }}")
+	viper.SetDefault("kafka.mechanism", "PLAIN")
+	viper.SetDefault("algorithm", "SHA512")
 
 	rootCmd.AddCommand(versionCmd)
 	rootCmd.AddCommand(configCmd)

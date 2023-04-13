@@ -8,12 +8,10 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/pkg/errors"
-	"github.com/tmc/grpc-websocket-proxy/wsproxy"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 	"google.golang.org/grpc"
@@ -27,14 +25,6 @@ import (
 )
 
 var (
-	// brandingRegistration    string
-	// brandingFooter          string
-	// openIDLoginLabel        string
-	// openIDConnectEnabled    bool
-	// registrationEnabled     bool
-	// registrationCallbackURL string
-	// logoutURL               string
-
 	bind            string
 	tlsCert         string
 	tlsKey          string
@@ -59,7 +49,7 @@ func Setup(ctx context.Context, conf config.Config) error {
 	// ctx := context.Background()
 	grpcServer := grpc.NewServer() // getgRPCServerOptions()...
 
-	// pb.RegisterInternalServiceServer(grpcServer, NewMainAPI()) // validator
+	// RegisterInternalServiceServer(grpcServer, NewMainAPI()) // temp no validator
 	RegisterCompanyServiceServer(grpcServer, NewCompanyAPI(validator))
 
 	return startHTTPServer(ctx, conf, grpcServer)
@@ -112,7 +102,7 @@ func startHTTPServer(ctx context.Context,
 			"bind":     bind,
 			"tls-cert": tlsCert,
 			"tls-key":  tlsKey,
-		}).Info("api/external: starting api server")
+		}).Info("api/external: starting api server ...")
 
 		if tlsCert == "" || tlsKey == "" {
 			log.Fatal(http.ListenAndServe(bind, h2c.NewHandler(handler, &http2.Server{})))
@@ -125,9 +115,6 @@ func startHTTPServer(ctx context.Context,
 			))
 		}
 	}()
-
-	// give the http server some time to start
-	time.Sleep(time.Millisecond * 100)
 
 	// setup the HTTP handler
 	clientHTTPHandler, err = setupHTTPAPI(conf)
@@ -159,15 +146,10 @@ func setupHTTPAPI(conf config.Config) (http.Handler, error) {
 	}).Methods("get")
 	r.PathPrefix("/api").Handler(jsonHandler)
 
-	// TODO setup openID:
-	// if err := oidc.Setup(conf, r); err != nil {
-	// 	return nil, errors.Wrap(err, "setup openid connect error")
-	// }
-
 	// setup static file server
 	r.PathPrefix("/").Handler(http.FileServer(http.FS(static.FS)))
 
-	return wsproxy.WebsocketProxy(r), nil
+	return r, nil
 }
 
 func getJSONGateway(ctx context.Context) (http.Handler, error) {

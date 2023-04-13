@@ -18,19 +18,6 @@ const configTemplate = `[general]
 # debug=5, info=4, warning=3, error=2, fatal=1, panic=0
 log_level={{ .General.LogLevel }}
 
-# client's ip country check
-# if enabled - only users from the country are allowed
-# for Create\Delete operations
-[country_check]
-# true - to enable the feature
-enabled="{{ .CountryCheck.Enabled }}"
-
-# url template of ip-API service
-url_tmpl="{{ .CountryCheck.UrlTmpl }}"
-
-# short country name (eg "United States")
-country_allowed="{{ .CountryCheck.CountryAllowed }}"
-
 [external_api]
   # ip:port to bind the (user facing) http server to (web-interface and REST / gRPC api)
   bind="{{ .ExternalAPI.Bind }}"
@@ -81,7 +68,8 @@ country_allowed="{{ .CountryCheck.CountryAllowed }}"
   # * disable - No SSL
   # * require - Always SSL (skip verification)
   # * verify-ca - Always SSL (verify that the certificate presented by the server was signed by a trusted CA)
-  # * verify-full - Always SSL (verify that the certification presented by the server was signed by a trusted CA and the server host name matches the one in the certificate)
+  # * verify-full - Always SSL (verify that the certification presented by the server was signed 
+  #   by a trusted CA and the server host name matches the one in the certificate)
   dsn="{{ .PostgreSQL.DSN }}"
 
   # Max open connections.
@@ -95,6 +83,40 @@ country_allowed="{{ .CountryCheck.CountryAllowed }}"
   # This sets the max. number of idle connections in the PostgreSQL connection
   # pool (0 = no idle connections are retained).
   max_idle_connections={{ .PostgreSQL.MaxIdleConnections }}
+
+ # Kafka events producer configuration.
+  [kafka]
+  # Broker list, e.g.: brokers=[localhost:9092]
+  brokers=[{{ range $index, $broker := .Kafka.Brokers }}{{ if $index }}, {{ end }}"{{ $broker }}"{{ end }}]
+
+  # TLS.
+  #
+  # Set this to true when the Kafka client must connect using TLS to the Broker.
+  tls={{ .Kafka.TLS }}
+
+  # Topic for events.
+  topic="{{ .Kafka.Topic }}"
+
+  # Template for keys included in Kafka messages. If empty, no key is included.
+  # Kafka uses the key for distributing messages over partitions. You can use
+  # this to ensure some subset of messages end up in the same partition, so
+  # they can be consumed in-order. And Kafka can use the key for data retention
+  # decisions.  A header "event" with the event type is included in each
+  # message. There is no need to parse it from the key.
+  event_key_template="{{ .Kafka.EventKeyTemplate }}"
+
+  # Username (optional).
+  username="{{ .Kafka.Username }}"
+
+  # Password (optional).
+  password="{{ .Kafka.Password }}"
+
+  # One of PLAIN(default) or SCRAM
+  mechanism="{{ .Kafka.Mechanism }}"
+  
+  # Only used if mechanism == scram.
+  # SHA256 or SHA512 
+  algorithm="{{ .Kafka.Algorithm }}"
 
 `
 

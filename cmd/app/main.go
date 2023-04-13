@@ -5,7 +5,7 @@ import "github.com/fancar/tmp_xm/cmd/app/cmd"
 /*
 	Auhtor:		Mamaev Alexander
 	Email:		fancatster@gmail.com
-	year:		2022
+	year:		2023
 */
 
 var version string // set by the compiler

@@ -1,9 +1,23 @@
-# Golang Exercise - v21.0.0
+# XM Golang Exercise - v22.0.0
 
-## how to use the thing
-- Docker-compose up -d
-- And that's it. Swagger is here http://localhost:8085/api
-- You can login with admin/admin to get your jwt token
-- with the jwt for accessing 'Create' and 'Delete' methods as it has been said
-- a config file is config.toml
-- to generate new config (or look through all the options) run ./xm configfile in the container
+## Setup and run
+- config file: config.toml.
+- config gile example: docker exec -it xm_app_1 xm configfile
+- to run execute: docker compose up -d OR docker-compose up -d
+
+## Swagger link
+-  http://localhost:8085/api
+
+## default creds
+- login with admin/admin to get your jwt token
+- then put the token in form on top in swagger
+
+- login link:
+	 http://localhost:8085/api#!/CompanyService/CompanyService_Login
+	 body:
+		 {
+		  "password": "admin",
+		  "user": "admin"
+		 }
+
+

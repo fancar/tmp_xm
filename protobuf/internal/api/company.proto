@@ -5,7 +5,6 @@ package api;
 option go_package = "github.com/fancar/tmp_xm/internal/api";
 
 import "google/api/annotations.proto";
-import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
 
@@ -16,13 +15,6 @@ service CompanyService {
 		option(google.api.http) = {
 			post: "/api/login"
 			body: "*"
-		};
-	}
-
-	// Get Company-list according to filters recieved.
-	rpc List(ListCompanyRequest) returns (ListCompanyResponse) {
-		option(google.api.http) = {
-			get: "/api/Companies"
 		};
 	}
 
@@ -57,6 +49,22 @@ service CompanyService {
 	}
 }
 
+enum CompanyType {
+    // unknown type
+    UNKNOWN = 0;	
+    // for corp 
+    Corporations = 1;
+
+    // for non-profit companies
+    NonProfit = 2;
+
+    // for cooperatives
+    Cooperative = 3;
+
+    // for Sole Proprietorship
+    SoleProprietorship = 4;
+}
+
 message LoginRequest {
 	// username
 	string user = 1;
@@ -70,42 +78,34 @@ message LoginResponse {
 	string jwt = 1;
 }
 
-
-
 message Company {
-	// !Remove it if you Create! Company ID.
-	int64 id = 1;
+	// Company ID (128 bit UUID). Unique.
+	string id = 10;
 
-	// Company name.
-	string name = 2;
+	// Company name. Max 15 characters. Unique.
+	string name = 20;
 
-	// zip code
-	string code = 3;	
+	// Company description. Max 3000 characters. Optional
+	string description = 30;
 
-	// home country.
-	string country = 4;
+	// Amount of Employees. Required
+	int32 employeescnt = 40; 
 
-	// website url
-	string website = 5;
+	// true if the company is registered. will be set to false if skipped!
+	bool registered = 50;
 
-	// telephone number
-	string phone = 6;    
+	// Type (Corporations | NonProfit | Cooperative | SoleProprietorship). Required
+	CompanyType type = 60;
 }
 
 message GetCompanyRequest {
 	// Company ID.
-	int64 id = 1;
+	string id = 1;
 }
 
 message GetCompanyResponse {
 	// Company object.
 	Company Company = 1;
-
-	// Created at timestamp.
-	google.protobuf.Timestamp created_at = 2;
-
-	// Last update timestamp.
-	google.protobuf.Timestamp updated_at = 3;
 }
 
 message CreateCompanyRequest {
@@ -121,34 +121,8 @@ message UpdateCompanyRequest {
 
 message DeleteCompanyRequest {
 	// Company ID.
-	int64 id = 1;
+	string id = 1;
 }
 
-message ListCompanyRequest {
 
-	// Max number of Companies to return in the result-set.
-	int64 limit = 1;
-
-	// Offset in the result-set
-	int64 offset = 2;
-
-	// Company name.
-	string name = 3;
-
-	// zip code
-	string code = 4;	
-
-	// home country.
-	string country = 5;
-
-	// website url
-	string website = 6;
-
-	// telephone number
-	string phone = 7; 
-}
-
-message ListCompanyResponse {
-	repeated Company result = 1;
-}
 

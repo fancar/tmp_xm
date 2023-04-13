@@ -4,10 +4,6 @@
 # debug=5, info=4, warning=3, error=2, fatal=1, panic=0
 log_level=4
 
-[country_check]
-enabled=true
-country_allowed="Cyprus"
-url_tmpl="https://ipapi.co/{{ .IPaddress }}/country_name/"
 
 [external_api]
 jwt_secret="verysecret"
@@ -15,8 +11,8 @@ bind="0.0.0.0:8085"
 # bind="0.0.0.0:80"
 
 [postgre]
-# out of d-c
-# dsn="postgres://app@db/app?sslmode=disable"
+# out of container
+dsn="postgres://app@db/app?sslmode=disable"
 
 # plain run
-dsn="postgres://app@localhost:5442/app?sslmode=disable"
+# dsn="postgres://app@localhost:5442/app?sslmode=disable"
