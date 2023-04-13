@@ -20,19 +20,20 @@
 
 /dist
 /build
-/static/logo
-/static/integrations
-/static/static
-/static/swagger/*.json
-/static/index.html
-/static/asset-manifest.json
-/static/service-worker.js
-/static/manifest.json
-/static/icon.png
-/static/precache-manifest.*.js
+# /static/logo
+# /static/integrations
+# /static/static
+# /static/swagger/*.json
+# /static/index.html
+# /static/asset-manifest.json
+# /static/service-worker.js
+# /static/manifest.json
+# /static/icon.png
+# /static/precache-manifest.*.js
+# static/*
 /ui/build
 /docs/public
-static/*
+
 yarn.lock
 
 # dependencies

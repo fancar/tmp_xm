@@ -1,0 +1,309 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "internal/api/company.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/Companies": {
+      "post": {
+        "summary": "Create a new Company.",
+        "operationId": "CompanyService_Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiCreateCompanyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CompanyService"
+        ]
+      }
+    },
+    "/api/Companies/{company.id}": {
+      "put": {
+        "summary": "Update an existing Company.",
+        "operationId": "CompanyService_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "company.id",
+            "description": "Company ID (128 bit UUID). Unique.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiUpdateCompanyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CompanyService"
+        ]
+      }
+    },
+    "/api/Companies/{id}": {
+      "get": {
+        "summary": "Get returns data for the particular Company-id",
+        "operationId": "CompanyService_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiGetCompanyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Company ID.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CompanyService"
+        ]
+      },
+      "delete": {
+        "summary": "Delete an Company.",
+        "operationId": "CompanyService_Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Company ID.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CompanyService"
+        ]
+      }
+    },
+    "/api/login": {
+      "post": {
+        "summary": "Log in a user",
+        "operationId": "CompanyService_Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiLoginResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiLoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "CompanyService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiCompany": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Company ID (128 bit UUID). Unique."
+        },
+        "name": {
+          "type": "string",
+          "description": "Company name. Max 15 characters. Unique."
+        },
+        "description": {
+          "type": "string",
+          "title": "Company description. Max 3000 characters. Optional"
+        },
+        "employeesCnt": {
+          "type": "string",
+          "format": "int64",
+          "title": "Amount of Employees. Required"
+        },
+        "registered": {
+          "type": "boolean",
+          "title": "true if the company is registered. will be set to false if skipped!"
+        },
+        "type": {
+          "$ref": "#/definitions/apiCompanyType",
+          "title": "Type (Corporations | NonProfit | Cooperative | SoleProprietorship). Required"
+        }
+      }
+    },
+    "apiCompanyType": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "Corporations",
+        "NonProfit",
+        "Cooperative",
+        "SoleProprietorship"
+      ],
+      "default": "UNKNOWN",
+      "title": "- UNKNOWN: LoRa\n - Corporations: LoRa\n - NonProfit: NonProfit\n - Cooperative: Cooperative\n - SoleProprietorship: Sole Proprietorship"
+    },
+    "apiCreateCompanyRequest": {
+      "type": "object",
+      "properties": {
+        "Company": {
+          "$ref": "#/definitions/apiCompany",
+          "description": "Company object to create."
+        }
+      }
+    },
+    "apiGetCompanyResponse": {
+      "type": "object",
+      "properties": {
+        "Company": {
+          "$ref": "#/definitions/apiCompany",
+          "description": "Company object."
+        }
+      }
+    },
+    "apiLoginRequest": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "string",
+          "title": "username"
+        },
+        "password": {
+          "type": "string",
+          "description": "Password of the user."
+        }
+      }
+    },
+    "apiLoginResponse": {
+      "type": "object",
+      "properties": {
+        "jwt": {
+          "type": "string",
+          "description": "The JWT tag to be used to access other methods."
+        }
+      }
+    },
+    "apiUpdateCompanyRequest": {
+      "type": "object",
+      "properties": {
+        "Company": {
+          "$ref": "#/definitions/apiCompany",
+          "description": "Company object to update."
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
