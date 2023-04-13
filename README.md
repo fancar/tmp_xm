@@ -2,8 +2,8 @@
 
 ## Setup and run
 - config file: config.toml.
-- config gile example: docker exec -it xm_app_1 xm configfile
-- to run execute: docker compose up -d OR docker-compose up -d
+- all config options: docker exec -it xm_app_1 xm configfile
+- to execute: docker compose up -d OR docker-compose up -d
 
 ## Swagger link
 -  http://localhost:8085/api
@@ -20,4 +20,15 @@
 		  "user": "admin"
 		 }
 
+- Create payload example:
+	{
+	  "Company": {
+	    "name" : "company name",
+	    "employeesCnt": 111,
+	    "description": "here is some description",
+	    "id": "65fb89c1-d145-41ca-b9b5-47ae7f79a70c",
+	    "registered": true,
+	    "type": "NonProfit"
+	  }
+	}
 
