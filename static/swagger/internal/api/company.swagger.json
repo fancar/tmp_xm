@@ -196,9 +196,9 @@
           "type": "string",
           "title": "Company description. Max 3000 characters. Optional"
         },
-        "employeesCnt": {
-          "type": "string",
-          "format": "int64",
+        "employeescnt": {
+          "type": "integer",
+          "format": "int32",
           "title": "Amount of Employees. Required"
         },
         "registered": {
@@ -221,7 +221,7 @@
         "SoleProprietorship"
       ],
       "default": "UNKNOWN",
-      "title": "- UNKNOWN: LoRa\n - Corporations: LoRa\n - NonProfit: NonProfit\n - Cooperative: Cooperative\n - SoleProprietorship: Sole Proprietorship"
+      "title": "- UNKNOWN: unknown type\n - Corporations: for corp\n - NonProfit: for non-profit companies\n - Cooperative: for cooperatives\n - SoleProprietorship: for Sole Proprietorship"
     },
     "apiCreateCompanyRequest": {
       "type": "object",

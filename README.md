@@ -14,21 +14,23 @@
 
 - login link:
 	 http://localhost:8085/api#!/CompanyService/CompanyService_Login
+	 ```
 	 body:
 		 {
 		  "password": "admin",
 		  "user": "admin"
 		 }
-
+	```
 - Create payload example:
+```
 	{
 	  "Company": {
 	    "name" : "company name",
-	    "employeesCnt": 111,
+	    "employeescnt": 111,
 	    "description": "here is some description",
 	    "id": "65fb89c1-d145-41ca-b9b5-47ae7f79a70c",
 	    "registered": true,
 	    "type": "NonProfit"
 	  }
 	}
-
+```
